@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Entity @Table(name = "sessions", schema = "codecoach")
+@Entity @Table(name = "sessions")
 @AllArgsConstructor @NoArgsConstructor
 @Builder
 @Getter
