@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/sessions")
+@CrossOrigin(origins = "https://codecoach-colruyt.netlify.app")
 public class SessionController {
 
 
