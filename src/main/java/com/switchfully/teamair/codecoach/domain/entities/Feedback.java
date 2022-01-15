@@ -20,9 +20,9 @@ public class Feedback {
     @Id
     @GeneratedValue
     @Column(name = "feedback_id")
-    UUID feedbackId;
-    @Column(name = "feedback_coach")
-    String feedbackCoach;
-    @Column(name= "feedback_coachee")
-    String feedbackCoachee;
+    Integer feedbackId;
+    @Column(name = "feedback_from_coach")
+    String feedbackFromCoach;
+    @Column(name= "feedback_from_coachee")
+    String feedbackFromCoachee;
 }
