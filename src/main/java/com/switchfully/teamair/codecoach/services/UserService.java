@@ -55,8 +55,8 @@ public class UserService {
         this.topicAssociationMapper = topicAssociationMapper;
         JwtSecret = jwtSecret;
         this.topicRepository = topicRepository;
-        roleRepository.save(new Role(RoleStatus.COACHEE));
-        roleRepository.save(new Role(RoleStatus.COACH));
+//        roleRepository.save(new Role(RoleStatus.COACHEE));
+//        roleRepository.save(new Role(RoleStatus.COACH));
     }
 
     public void registerUser(UserDtoRequest userDtoRequest) {
