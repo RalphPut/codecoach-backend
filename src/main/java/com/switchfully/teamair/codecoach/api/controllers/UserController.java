@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 //@CrossOrigin(origins = "https://codecoach-colruyt.netlify.app")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/users")
 public class UserController {
 
