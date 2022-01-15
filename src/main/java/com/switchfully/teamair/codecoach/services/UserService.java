@@ -30,6 +30,9 @@ import java.util.UUID;
 @Transactional
 public class UserService {
 
+    private static final int COACHEE_ID = 1;
+    private static final int COACH_ID = 2;
+
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
@@ -52,6 +55,8 @@ public class UserService {
         this.topicAssociationMapper = topicAssociationMapper;
         JwtSecret = jwtSecret;
         this.topicRepository = topicRepository;
+        roleRepository.save(new Role(RoleStatus.COACHEE));
+        roleRepository.save(new Role(RoleStatus.COACH));
     }
 
     public void registerUser(UserDtoRequest userDtoRequest) {
@@ -59,22 +64,23 @@ public class UserService {
         validationService.assertEmailIsNew(userDtoRequest.getEmail());
         validationService.assertPasswordIsValid(userDtoRequest.getPassword());
         User user = userMapper.toEntity(userDtoRequest);
-        user.addRole(roleRepository.findRoleById(1));
+        user.addRole(roleRepository.findRoleById(COACHEE_ID));
         userRepository.save(user);
         logger.info("Service: User with email {} has been registered", user.getEmail());
+        logger.info("Service: This user has id {}", user.getUserId());
     }
 
     @Cacheable("allCoachesCache")
     public List<UserDtoResponse> getAllCoaches() {
         logger.info("Service: Getting all coaches");
-        Role role = roleRepository.findRoleById(2);
+        Role role = roleRepository.findRoleById(COACH_ID);
         return userRepository.findAllByRolesContaining(role).stream().map(userMapper::toResponse).toList();
     }
 
     public UserDtoResponse getUserById(String userId, String authorizationToken) {
         validationService.assertUserExists(UUID.fromString(userId));
         User user = userRepository.findUserByUserId(UUID.fromString(userId));
-        Role role = roleRepository.findRoleById(2);
+        Role role = roleRepository.findRoleById(COACH_ID);
         if (!user.getRoles().contains(role)) {
             validationService.assertValidToken(userId, authorizationToken);
         }
@@ -86,7 +92,7 @@ public class UserService {
         logger.info("Service: Toggling coach status for user with id {}", userId);
         validationService.assertUserExists(UUID.fromString(userId));
         validationService.assertValidToken(userId, authorizationToken);
-        Role coachRole = roleRepository.findRoleById(2);
+        Role coachRole = roleRepository.findRoleById(COACH_ID);
         User user = userRepository.findUserByUserId(UUID.fromString(userId));
 
         if (!user.getRoles().contains(coachRole)) {
@@ -129,7 +135,7 @@ public class UserService {
         user.setCompany(updateUserDtoRequest.getCompany());
         user.setImageUrl(updateUserDtoRequest.getImageUrl());
 
-        if (user.getRoles().contains(roleRepository.findRoleById(2))) {
+        if (user.getRoles().contains(roleRepository.findRoleById(COACH_ID))) {
             logger.info("Service: User is a coach, updating getting coach details");
             if (updateUserDtoRequest.getCoachDetails() != null) {
                 CoachDetailsDtoRequest coachDetailsDtoRequest = updateUserDtoRequest.getCoachDetails();

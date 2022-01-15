@@ -18,6 +18,7 @@ public class Role {
 
 
     @Id
+    @GeneratedValue
     @Column(name = "role_id")
     int id;
     @Enumerated(EnumType.STRING)
