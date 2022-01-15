@@ -27,4 +27,6 @@ public class SessionDtoResponse {
     SessionType sessionType;
     SessionStatus sessionStatus;
     String remarks;
+    String feedbackFromCoach;
+    String feedbackFromCoachee;
 }

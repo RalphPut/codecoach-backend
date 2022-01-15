@@ -1,7 +1,9 @@
 package com.switchfully.teamair.codecoach.api.controllers;
 
+import com.switchfully.teamair.codecoach.api.dtos.FeedbackDtoRequest;
 import com.switchfully.teamair.codecoach.api.dtos.SessionDtoRequest;
 import com.switchfully.teamair.codecoach.api.dtos.SessionDtoResponse;
+import com.switchfully.teamair.codecoach.services.FeedbackService;
 import com.switchfully.teamair.codecoach.services.SessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +20,11 @@ public class SessionController {
     private final Logger logger = LoggerFactory.getLogger(SessionController.class);
 
     private final SessionService sessionService;
+    private final FeedbackService feedbackService;
 
-    public SessionController(SessionService sessionService) {
+    public SessionController(SessionService sessionService, FeedbackService feedbackService) {
         this.sessionService = sessionService;
+        this.feedbackService = feedbackService;
     }
 
     @GetMapping(path = "/{sessionId}")
@@ -39,10 +43,22 @@ public class SessionController {
         sessionService.requestSession(sessionDtoRequest, authorization);
     }
 
+    @PutMapping(path = "/{sessionId}/addfeedback", consumes = "application/json")
+    @PreAuthorize("hasAuthority('COACHEE')")
+    @ResponseStatus(HttpStatus.OK)
+    public void addFeedback(@PathVariable String sessionId, @RequestBody FeedbackDtoRequest feedbackDtoRequest, @RequestHeader String authorization) {
+        logger.info("Getting session by id {}", sessionId);
+        feedbackService.addFeedback(sessionId, feedbackDtoRequest, authorization);
+    }
+
     @PutMapping(path = "/{sessionId}")
+    @PreAuthorize("hasAuthority('COACHEE')")
+    @ResponseStatus(HttpStatus.OK)
     public void updateSession(@PathVariable String sessionId, @RequestBody String sessionStatus, @RequestHeader String authorization) {
         sessionService.updateSessionStatus(sessionId, sessionStatus, authorization);
     }
+
+
 
     @DeleteMapping
     public void deleteSession(SessionDtoRequest sessionDtoRequest) {

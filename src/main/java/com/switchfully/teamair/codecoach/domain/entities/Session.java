@@ -3,15 +3,7 @@ package com.switchfully.teamair.codecoach.domain.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -33,7 +25,7 @@ public class Session {
   User coachee;
 
   @OneToOne
-  @JoinColumn(name = "topic_Id")
+  @JoinColumn(name = "topic_id")
   Topic topic;
 
   @Column(name = "session_date_time")
@@ -46,8 +38,8 @@ public class Session {
   @Enumerated(EnumType.STRING)
   @Column(name = "session_status")
   SessionStatus sessionStatus;
-//  @OneToOne
-//  @JoinColumn(name = "feedback_id")
-//  Feedback feedback;
+  @OneToOne(cascade= CascadeType.ALL)
+  @JoinColumn(name = "feedback_id")
+  Feedback feedback;
 
 }

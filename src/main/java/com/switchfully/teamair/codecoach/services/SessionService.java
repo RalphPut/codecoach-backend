@@ -2,10 +2,7 @@ package com.switchfully.teamair.codecoach.services;
 
 import com.switchfully.teamair.codecoach.api.dtos.SessionDtoRequest;
 import com.switchfully.teamair.codecoach.api.dtos.SessionDtoResponse;
-import com.switchfully.teamair.codecoach.domain.entities.Session;
-import com.switchfully.teamair.codecoach.domain.entities.SessionStatus;
-import com.switchfully.teamair.codecoach.domain.entities.Topic;
-import com.switchfully.teamair.codecoach.domain.entities.User;
+import com.switchfully.teamair.codecoach.domain.entities.*;
 import com.switchfully.teamair.codecoach.domain.repositories.SessionRepository;
 import com.switchfully.teamair.codecoach.domain.repositories.TopicRepository;
 import com.switchfully.teamair.codecoach.domain.repositories.UserRepository;
@@ -50,8 +47,9 @@ public class SessionService {
     validationService.assertUserIsACoach(coach);
     validationService.assertTopicExists(topic.getId());
 //    validationService.assertTopicBelongsToACoach(coach, topic);
-
-    sessionRepository.save(sessionMapper.toEntity(sessionDtoRequest));
+    Session session = sessionMapper.toEntity(sessionDtoRequest);
+    session.setFeedback(new Feedback());
+    sessionRepository.save(session);
   }
 
   public List<SessionDtoResponse> getAllSessionsById(String userId, String authorizationToken) {
