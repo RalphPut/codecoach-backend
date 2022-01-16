@@ -32,7 +32,7 @@ public class SessionMapper {
 
         String str = date + " " + sessionDtoRequest.getTime();
         System.out.println(str);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
 
         return Session.builder()
