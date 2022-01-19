@@ -1,5 +1,7 @@
 package com.switchfully.teamair.codecoach.domain.entities;
 
+import com.switchfully.teamair.codecoach.api.dtos.TopicDtoRequest;
+import com.switchfully.teamair.codecoach.api.dtos.TopicDtoResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.LazyCollection;
@@ -78,6 +80,13 @@ public class CoachDetails {
         this.topics.clear();
     }
 
-
-
+    public boolean containsTopics(String topicDtoRequest){
+        for (TopicAssociation topicAssociation : this.getTopics()){
+            Topic existingTopic = topicAssociation.getTopic();
+            if (existingTopic.getName().equals(topicDtoRequest)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

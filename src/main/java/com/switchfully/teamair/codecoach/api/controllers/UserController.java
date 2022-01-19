@@ -1,9 +1,6 @@
 package com.switchfully.teamair.codecoach.api.controllers;
 
-import com.switchfully.teamair.codecoach.api.dtos.SessionDtoResponse;
-import com.switchfully.teamair.codecoach.api.dtos.UpdateUserDtoRequest;
-import com.switchfully.teamair.codecoach.api.dtos.UserDtoRequest;
-import com.switchfully.teamair.codecoach.api.dtos.UserDtoResponse;
+import com.switchfully.teamair.codecoach.api.dtos.*;
 import com.switchfully.teamair.codecoach.services.SessionService;
 import com.switchfully.teamair.codecoach.services.UserService;
 import org.slf4j.Logger;
@@ -43,9 +40,9 @@ public class UserController {
     @GetMapping(produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
     @PreAuthorize("hasAuthority('COACHEE')")
-    public List<UserDtoResponse> getAllCoaches() {
+    public List<UserDtoResponse> getAllCoaches(@RequestParam(required = false) String topic) {
         logger.info("Controller: Getting all coaches");
-        return userService.getAllCoaches();
+        return userService.getAllCoaches(topic);
     }
 
     @GetMapping(path = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)

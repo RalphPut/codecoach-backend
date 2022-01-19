@@ -98,14 +98,14 @@ public class SessionService {
     if (roleStatus.equals("COACH")) {
       if (currentSessionStatus.equals(SessionStatus.REQUESTED) && (newStatus.equals("ACCEPTED") || newStatus.equals("DECLINED"))) {
         session.setSessionStatus(SessionStatus.valueOf(newStatus));
-      } else if (currentSessionStatus.equals(SessionStatus.ACCEPTED) && newStatus.equals("FINISHED_CANCELED_BY_COACH")) {
+      } else if (currentSessionStatus.equals(SessionStatus.ACCEPTED) && newStatus.equals("CANCELED_BY_COACH")) {
         session.setSessionStatus(SessionStatus.valueOf(newStatus));
       } else {
         throw new InvalidSessionStatusException();
       }
     } else {
       if (currentSessionStatus.equals(SessionStatus.REQUESTED) || (currentSessionStatus.equals(SessionStatus.ACCEPTED))
-          && newStatus.equals("FINISHED_CANCELLED_BY_COACHEE")) {
+          && newStatus.equals("CANCELLED_BY_COACHEE")) {
         session.setSessionStatus(SessionStatus.valueOf(newStatus));
       } else {
         throw new InvalidSessionStatusException();

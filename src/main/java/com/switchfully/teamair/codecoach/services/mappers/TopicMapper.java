@@ -5,6 +5,9 @@ import com.switchfully.teamair.codecoach.api.dtos.TopicDtoResponse;
 import com.switchfully.teamair.codecoach.domain.entities.Topic;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class TopicMapper {
 
