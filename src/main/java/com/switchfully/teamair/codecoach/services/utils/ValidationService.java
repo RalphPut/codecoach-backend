@@ -98,6 +98,12 @@ public class ValidationService {
         }
     }
 
+    public void assertSessionIsFinished(Session session){
+        if(!SessionStatus.FINISHED.equals(session.getSessionStatus())){
+            throw new SessionNotFinishedException();
+        }
+    }
+
     public void assertTopicBelongsToACoach(User coach, Topic topic) {
         List<Topic> topics = coach.getCoachDetails().getTopics().stream().map(TopicAssociation::getTopic).toList();
         if (!topics.contains(topic)) {

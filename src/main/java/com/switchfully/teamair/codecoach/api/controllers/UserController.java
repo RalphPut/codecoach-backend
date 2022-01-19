@@ -18,7 +18,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "https://codecoach-colruyt.netlify.app")
+//@CrossOrigin(origins = "https://codecoach-colruyt.netlify.app")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/users")
 public class UserController {
 

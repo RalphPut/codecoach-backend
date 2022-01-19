@@ -82,6 +82,14 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
                 "Hey! Coach allready contains this topic!", new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({ SessionNotFinishedException.class })
+    public ResponseEntity<Object> handleSessionNotFinishedException(
+            Exception ex, WebRequest request) {
+        logger.error("This session is not yet finished, you can't provide feedback yet.");
+        return new ResponseEntity<>(
+                "Hey! This session is not yet finished, you can't provide feedback yet!", new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
 
 
 }

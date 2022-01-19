@@ -20,7 +20,9 @@ public class SessionDtoResponse {
 
     String sessionId;
     String coachId;
+    String coachName;
     String coacheeId;
+    String coacheeName;
     String topic;
     String date;
     String time;

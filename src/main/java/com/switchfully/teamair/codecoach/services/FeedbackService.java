@@ -34,6 +34,7 @@ public class FeedbackService {
     public void addFeedback(String sessionId, FeedbackDtoRequest feedbackDtoRequest, String authorizationToken){
         validationService.assertSessionExists(sessionId);
         Session session = sessionRepository.findSessionById(UUID.fromString(sessionId));
+        validationService.assertSessionIsFinished(session);
         UUID userIdFromToken = validationService.getValidUserIdOrThrowBadRequest(authorizationToken);
         UUID coachId = session.getCoach().getUserId();
         UUID coacheeId = session.getCoachee().getUserId();

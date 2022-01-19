@@ -24,13 +24,15 @@ public class SessionService {
   private final UserRepository userRepository;
   private final TopicRepository topicRepository;
   private final ValidationService validationService;
+  private final MessagingService messagingService;
 
-  public SessionService(SessionRepository sessionRepository, SessionMapper sessionMapper, UserRepository userRepository, TopicRepository topicRepository, ValidationService validationService) {
+  public SessionService(SessionRepository sessionRepository, SessionMapper sessionMapper, UserRepository userRepository, TopicRepository topicRepository, ValidationService validationService, MessagingService messagingService) {
     this.sessionRepository = sessionRepository;
     this.sessionMapper = sessionMapper;
     this.userRepository = userRepository;
     this.topicRepository = topicRepository;
     this.validationService = validationService;
+    this.messagingService = messagingService;
   }
 
   public void requestSession(SessionDtoRequest sessionDtoRequest, String authorizationToken) {
@@ -49,6 +51,8 @@ public class SessionService {
 //    validationService.assertTopicBelongsToACoach(coach, topic);
     Session session = sessionMapper.toEntity(sessionDtoRequest);
     session.setFeedback(new Feedback());
+    String message = messagingService.createRequestSessionMessage(session);
+    messagingService.sendMessageToTopic(message);
     sessionRepository.save(session);
   }
 

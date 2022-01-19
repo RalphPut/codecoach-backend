@@ -32,6 +32,8 @@ public class User {
     String company;
     @Column(name = "image_url")
     String imageUrl;
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id_fk"),
