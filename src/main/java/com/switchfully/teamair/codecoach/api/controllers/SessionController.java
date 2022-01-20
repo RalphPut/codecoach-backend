@@ -56,7 +56,9 @@ public class SessionController {
     @PreAuthorize("hasAuthority('COACHEE')")
     @ResponseStatus(HttpStatus.OK)
     public void updateSession(@PathVariable String sessionId, @RequestBody String sessionStatus, @RequestHeader String authorization) {
+        logger.info(sessionStatus);
         sessionService.updateSessionStatus(sessionId, sessionStatus, authorization);
+
     }
 
 
