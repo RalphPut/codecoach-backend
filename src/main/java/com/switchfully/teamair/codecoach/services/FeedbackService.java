@@ -4,6 +4,7 @@ import com.switchfully.teamair.codecoach.api.controllers.SessionController;
 import com.switchfully.teamair.codecoach.api.dtos.FeedbackDtoRequest;
 import com.switchfully.teamair.codecoach.domain.entities.Feedback;
 import com.switchfully.teamair.codecoach.domain.entities.Session;
+import com.switchfully.teamair.codecoach.domain.entities.SessionStatus;
 import com.switchfully.teamair.codecoach.domain.repositories.FeedbackRepository;
 import com.switchfully.teamair.codecoach.domain.repositories.SessionRepository;
 import com.switchfully.teamair.codecoach.services.exceptions.InvalidTokenException;
@@ -31,7 +32,7 @@ public class FeedbackService {
         this.feedbackRepository = feedbackRepository;
     }
 
-    public void addFeedback(String sessionId, FeedbackDtoRequest feedbackDtoRequest, String authorizationToken){
+    public void addFeedback(String sessionId, String feedbackDtoRequest, String authorizationToken){
         validationService.assertSessionExists(sessionId);
         Session session = sessionRepository.findSessionById(UUID.fromString(sessionId));
         validationService.assertSessionIsFinished(session);
@@ -42,12 +43,16 @@ public class FeedbackService {
         Feedback feedback = feedbackRepository.findFeedbackByFeedbackId(feedbackId);
         if (coachId.equals(userIdFromToken)) {
             logger.info(String.format("Adding feedback from coach with feedbackId %s", feedbackId));
-            feedback.setFeedbackFromCoach(feedbackDtoRequest.getFeedback());
+            feedback.setFeedbackFromCoach(feedbackDtoRequest);
         } else if (coacheeId.equals(userIdFromToken)) {
             logger.info(String.format("Adding feedback from coachee with feedbackId %s", feedbackId));
-            feedback.setFeedbackFromCoachee(feedbackDtoRequest.getFeedback());
+            feedback.setFeedbackFromCoachee(feedbackDtoRequest);
         } else {
             throw new InvalidTokenException();
+        }
+        if (feedback.getFeedbackFromCoach() != null && feedback.getFeedbackFromCoachee() != null){
+            session.setSessionStatus(SessionStatus.FINISHED);
+            sessionRepository.save(session);
         }
     }
 }

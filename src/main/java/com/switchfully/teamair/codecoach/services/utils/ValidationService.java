@@ -99,7 +99,7 @@ public class ValidationService {
     }
 
     public void assertSessionIsFinished(Session session){
-        if(!SessionStatus.FINISHED.equals(session.getSessionStatus())){
+        if(!SessionStatus.DONE_WAITING_FOR_FEEDBACK.equals(session.getSessionStatus())){
             throw new SessionNotFinishedException();
         }
     }

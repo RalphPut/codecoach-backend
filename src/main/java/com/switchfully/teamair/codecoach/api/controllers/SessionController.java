@@ -44,11 +44,11 @@ public class SessionController {
         sessionService.requestSession(sessionDtoRequest, authorization);
     }
 
-    @PutMapping(path = "/{sessionId}/addfeedback", consumes = "application/json")
+    @PutMapping(path = "/{sessionId}/addfeedback")
     @PreAuthorize("hasAuthority('COACHEE')")
     @ResponseStatus(HttpStatus.OK)
-    public void addFeedback(@PathVariable String sessionId, @RequestBody FeedbackDtoRequest feedbackDtoRequest, @RequestHeader String authorization) {
-        logger.info("Getting session by id {}", sessionId);
+    public void addFeedback(@PathVariable String sessionId, @RequestBody String feedbackDtoRequest, @RequestHeader String authorization) {
+        logger.info("Addfeedback: Getting session by id {}", sessionId);
         feedbackService.addFeedback(sessionId, feedbackDtoRequest, authorization);
     }
 
