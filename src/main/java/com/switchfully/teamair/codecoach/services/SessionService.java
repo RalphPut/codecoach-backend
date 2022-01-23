@@ -94,6 +94,9 @@ public class SessionService {
             if(SessionStatus.ACCEPTED.equals(session.getSessionStatus()) && session.getDateTime().isBefore(LocalDateTime.now())){
                 session.setSessionStatus(SessionStatus.DONE_WAITING_FOR_FEEDBACK);
                 sessionRepository.save(session);
+            } else if(SessionStatus.REQUESTED.equals(session.getSessionStatus()) && session.getDateTime().isBefore(LocalDateTime.now())){
+                session.setSessionStatus(SessionStatus.DECLINED);
+                sessionRepository.save(session);
             }
         }
     }
