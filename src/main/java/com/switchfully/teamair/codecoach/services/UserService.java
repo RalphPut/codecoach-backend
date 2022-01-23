@@ -74,10 +74,16 @@ public class UserService {
     public List<UserDtoResponse> getAllCoaches(String topicDtoRequest) {
         logger.info("Service: Getting all coaches");
         Role role = roleRepository.findRoleById(COACH_ID);
-        return userRepository.findAllByRolesContaining(role).stream()
-                .filter(user -> topicDtoRequest.equals("") ||
-                        user.getCoachDetails().containsTopics(topicDtoRequest))
-                .map(userMapper::toResponse).toList();
+        if (topicDtoRequest!= null) {
+            return userRepository.findAllByRolesContaining(role).stream()
+                    .filter(user -> topicDtoRequest.equals("") ||
+                            user.getCoachDetails().containsTopics(topicDtoRequest))
+                    .map(userMapper::toResponse).toList();
+        }
+        else{
+            return userRepository.findAllByRolesContaining(role).stream()
+                    .map(userMapper::toResponse).toList();
+        }
     }
 
     public UserDtoResponse getUserById(String userId, String authorizationToken) {
