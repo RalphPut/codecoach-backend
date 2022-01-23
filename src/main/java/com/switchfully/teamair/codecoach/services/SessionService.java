@@ -59,9 +59,10 @@ public class SessionService {
 //    validationService.assertTopicBelongsToACoach(coach, topic);
         Session session = sessionMapper.toEntity(sessionDtoRequest);
         session.setFeedback(new Feedback());
-        String message = messagingService.createRequestSessionMessage(session);
-        messagingService.sendMessageToTopic(message);
+        //   String message = messagingService.createRequestSessionMessage(session);
+        //   messagingService.sendMessageToTopic(message);
         sessionRepository.save(session);
+
     }
 
     public List<SessionDtoResponse> getAllSessionsById(String userId, String authorizationToken) {
@@ -91,7 +92,7 @@ public class SessionService {
     private void updateSessionStatusToDoneWaitingForFeedback() {
         logger.info("Updating the SessionStatus");
         for (Session session : sessionRepository.findAll()) {
-            if(SessionStatus.ACCEPTED.equals(session.getSessionStatus()) && session.getDateTime().isBefore(LocalDateTime.now())){
+            if (SessionStatus.ACCEPTED.equals(session.getSessionStatus()) && session.getDateTime().isBefore(LocalDateTime.now())) {
                 session.setSessionStatus(SessionStatus.DONE_WAITING_FOR_FEEDBACK);
                 sessionRepository.save(session);
             } else if(SessionStatus.REQUESTED.equals(session.getSessionStatus()) && session.getDateTime().isBefore(LocalDateTime.now())){
@@ -121,6 +122,9 @@ public class SessionService {
                 session.setSessionStatus(SessionStatus.valueOf(newStatus));
             } else if (currentSessionStatus.equals(SessionStatus.ACCEPTED) && newStatus.equals("CANCELLED_BY_COACH")) {
                 session.setSessionStatus(SessionStatus.valueOf(newStatus));
+               // String message = messagingService.createCancelSessionMessageByCoach(session);
+               // messagingService.sendMessageToTopic(message);
+
             } else {
                 throw new InvalidSessionStatusException();
             }
@@ -128,6 +132,8 @@ public class SessionService {
             if (currentSessionStatus.equals(SessionStatus.REQUESTED) || (currentSessionStatus.equals(SessionStatus.ACCEPTED))
                     && newStatus.equals("CANCELLED_BY_COACHEE")) {
                 session.setSessionStatus(SessionStatus.valueOf(newStatus));
+             //   String message = messagingService.createCancelSessionMessageByCoachee(session);
+             //   messagingService.sendMessageToTopic(message);
             } else {
                 throw new InvalidSessionStatusException();
             }

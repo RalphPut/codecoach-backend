@@ -3,8 +3,10 @@ package com.switchfully.teamair.codecoach.api.controllers;
 import com.switchfully.teamair.codecoach.api.dtos.FeedbackDtoRequest;
 import com.switchfully.teamair.codecoach.api.dtos.SessionDtoRequest;
 import com.switchfully.teamair.codecoach.api.dtos.SessionDtoResponse;
+import com.switchfully.teamair.codecoach.domain.entities.Feedback;
 import com.switchfully.teamair.codecoach.services.FeedbackService;
 import com.switchfully.teamair.codecoach.services.SessionService;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -61,6 +63,13 @@ public class SessionController {
 
     }
 
+   // @GetMapping(path = "/{sessionId}/getfeedback")
+   // @ResponseStatus(HttpStatus.OK)
+   // @PreAuthorize("hasAuthority('COACHEE')")
+   // public Feedback getFeedback(@PathVariable String sessionId, @RequestHeader String authorization){
+    //    logger.info("Getting feedback for {)",sessionId);
+    //    return feedbackService.getFeedback(sessionId,authorization);
+   // }
 
 
     @DeleteMapping

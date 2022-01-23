@@ -2,6 +2,7 @@ package com.switchfully.teamair.codecoach.services;
 
 import com.switchfully.teamair.codecoach.api.controllers.SessionController;
 import com.switchfully.teamair.codecoach.api.dtos.FeedbackDtoRequest;
+import com.switchfully.teamair.codecoach.api.dtos.FeedbackDtoResponse;
 import com.switchfully.teamair.codecoach.domain.entities.Feedback;
 import com.switchfully.teamair.codecoach.domain.entities.Session;
 import com.switchfully.teamair.codecoach.domain.entities.SessionStatus;
@@ -30,6 +31,18 @@ public class FeedbackService {
         this.sessionRepository = sessionRepository;
         this.validationService = validationService;
         this.feedbackRepository = feedbackRepository;
+    }
+
+    public Feedback getFeedback(String sessionId, String authorizationToken){
+        validationService.assertSessionExists(sessionId);
+        Session session = sessionRepository.findSessionById(UUID.fromString(sessionId));
+        UUID userIdFromToken = validationService.getValidUserIdOrThrowBadRequest(authorizationToken);
+        UUID coachId = session.getCoach().getUserId();
+        UUID coacheeId = session.getCoachee().getUserId();
+        int feedbackId = session.getFeedback().getFeedbackId();
+        Feedback feedback = feedbackRepository.findFeedbackByFeedbackId(feedbackId);
+        return feedback;
+
     }
 
     public void addFeedback(String sessionId, String feedbackDtoRequest, String authorizationToken){

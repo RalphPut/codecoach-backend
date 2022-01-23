@@ -26,12 +26,17 @@ public class MessagingService {
     }
 
     public String createRequestSessionMessage(Session session) {
-        return String.format("sendTo:%s Session requested by %s %s on %s", session.getCoach().getPhoneNumber(),
+        return String.format("Session requested by %s %s on %s",
                 session.getCoachee().getFirstName(), session.getCoachee().getLastName(), session.getDateTime());
     }
 
-    public String createCancelSessionMessage(Session session) {
-        return String.format("sendTo:%s Session cancelled by %s %s on %s", session.getCoachee().getPhoneNumber(),
-                session.getCoach().getFirstName(), session.getCoach().getLastName(), LocalDate.now());
+    public String createCancelSessionMessageByCoach(Session session) {
+        return String.format("Session about %s on %s cancelled by %s %s",
+                session.getTopic(), session.getDateTime(), session.getCoach().getFirstName(), session.getCoach().getLastName());
+    }
+
+    public String createCancelSessionMessageByCoachee(Session session) {
+        return String.format("Session about %s on %s cancelled by %s %s",
+                session.getTopic(), session.getDateTime(), session.getCoachee().getFirstName(), session.getCoachee().getLastName());
     }
 }
