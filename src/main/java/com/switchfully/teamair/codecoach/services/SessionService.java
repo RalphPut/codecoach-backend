@@ -59,8 +59,8 @@ public class SessionService {
 //    validationService.assertTopicBelongsToACoach(coach, topic);
         Session session = sessionMapper.toEntity(sessionDtoRequest);
         session.setFeedback(new Feedback());
-        //   String message = messagingService.createRequestSessionMessage(session);
-        //   messagingService.sendMessageToTopic(message);
+           String message = messagingService.createRequestSessionMessage(session);
+          messagingService.sendMessageToTopic(message);
         sessionRepository.save(session);
 
     }
