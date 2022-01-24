@@ -122,8 +122,8 @@ public class SessionService {
                 session.setSessionStatus(SessionStatus.valueOf(newStatus));
             } else if (currentSessionStatus.equals(SessionStatus.ACCEPTED) && newStatus.equals("CANCELLED_BY_COACH")) {
                 session.setSessionStatus(SessionStatus.valueOf(newStatus));
-               // String message = messagingService.createCancelSessionMessageByCoach(session);
-               // messagingService.sendMessageToTopic(message);
+                String message = messagingService.createCancelSessionMessageByCoach(session);
+                messagingService.sendMessageToTopic(message);
 
             } else {
                 throw new InvalidSessionStatusException();
@@ -132,8 +132,8 @@ public class SessionService {
             if (currentSessionStatus.equals(SessionStatus.REQUESTED) || (currentSessionStatus.equals(SessionStatus.ACCEPTED))
                     && newStatus.equals("CANCELLED_BY_COACHEE")) {
                 session.setSessionStatus(SessionStatus.valueOf(newStatus));
-             //   String message = messagingService.createCancelSessionMessageByCoachee(session);
-             //   messagingService.sendMessageToTopic(message);
+                String message = messagingService.createCancelSessionMessageByCoachee(session);
+                messagingService.sendMessageToTopic(message);
             } else {
                 throw new InvalidSessionStatusException();
             }
