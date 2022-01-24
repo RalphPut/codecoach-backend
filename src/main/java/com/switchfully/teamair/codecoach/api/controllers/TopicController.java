@@ -13,8 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/topics")
-//@CrossOrigin(origins = "https://codecoach-colruyt.netlify.app")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://codecoach-colruyt.netlify.app")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class TopicController {
 
     private final Logger logger = LoggerFactory.getLogger(TopicController.class);
