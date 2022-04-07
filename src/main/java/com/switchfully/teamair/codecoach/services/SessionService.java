@@ -60,7 +60,7 @@ public class SessionService {
         Session session = sessionMapper.toEntity(sessionDtoRequest);
         session.setFeedback(new Feedback());
            String message = messagingService.createRequestSessionMessage(session);
-          messagingService.sendMessageToTopic(message);
+        //  messagingService.sendMessageToTopic(message);
         sessionRepository.save(session);
 
     }
