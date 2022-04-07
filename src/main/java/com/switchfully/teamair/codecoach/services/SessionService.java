@@ -133,7 +133,7 @@ public class SessionService {
                     && newStatus.equals("CANCELLED_BY_COACHEE")) {
                 session.setSessionStatus(SessionStatus.valueOf(newStatus));
                 String message = messagingService.createCancelSessionMessageByCoachee(session);
-                messagingService.sendMessageToTopic(message);
+            //    messagingService.sendMessageToTopic(message);
             } else {
                 throw new InvalidSessionStatusException();
             }
