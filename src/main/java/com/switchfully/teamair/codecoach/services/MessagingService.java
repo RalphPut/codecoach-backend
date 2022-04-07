@@ -24,6 +24,7 @@ public class MessagingService {
                 .build();
         template.setExchange(EXCHANGE_NAME);
         template.send(new Message(message.getBytes(), messageProperties));
+
         com.twilio.rest.api.v2010.account.Message mes = com.twilio.rest.api.v2010.account.Message.creator(
                         new PhoneNumber("+32474897294"),
                         new PhoneNumber("(507) 478-7516 "),

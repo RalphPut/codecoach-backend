@@ -15,7 +15,7 @@ public class CodecoachApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(CodecoachApplication.class, args);
-    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+   // Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
   }
 
 
