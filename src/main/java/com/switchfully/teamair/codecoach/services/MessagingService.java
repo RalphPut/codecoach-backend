@@ -1,8 +1,8 @@
 package com.switchfully.teamair.codecoach.services;
 
 import com.switchfully.teamair.codecoach.domain.entities.Session;
-import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.MessagePropertiesBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,20 +19,19 @@ public class MessagingService {
     private RabbitTemplate template;
 
     public void sendMessageToTopic(String message) {
+        MessageProperties messageProperties = MessagePropertiesBuilder.newInstance()
+                .setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN)
+                .build();
+        template.setExchange(EXCHANGE_NAME);
+        template.send(new Message(message.getBytes(), messageProperties));
+        com.twilio.rest.api.v2010.account.Message mes = com.twilio.rest.api.v2010.account.Message.creator(
+                        new PhoneNumber("+32474897294"),
+                        new PhoneNumber("(507) 478-7516 "),
+                        message)
 
-            Message mes = Message.creator(
-                            new PhoneNumber("+32474897294"),
-                            new PhoneNumber("(507) 478-7516 "),
-                            message)
-
-                    .create();
+                .create();
 
         System.out.println(mes.getSid());
-//        MessageProperties messageProperties = MessagePropertiesBuilder.newInstance()
-//                .setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN)
-//                .build();
-//        template.setExchange(EXCHANGE_NAME);
-//        template.send(new Message(message.getBytes(), messageProperties));
     }
 
     public String createRequestSessionMessage(Session session) {
