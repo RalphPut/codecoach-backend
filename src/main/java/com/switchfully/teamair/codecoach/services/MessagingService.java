@@ -1,6 +1,7 @@
 package com.switchfully.teamair.codecoach.services;
 
 import com.switchfully.teamair.codecoach.domain.entities.Session;
+import com.twilio.type.PhoneNumber;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.MessagePropertiesBuilder;
@@ -23,6 +24,15 @@ public class MessagingService {
                 .build();
         template.setExchange(EXCHANGE_NAME);
         template.send(new Message(message.getBytes(), messageProperties));
+
+        com.twilio.rest.api.v2010.account.Message mes = com.twilio.rest.api.v2010.account.Message.creator(
+                        new PhoneNumber("+32474897294"),
+                        new PhoneNumber("(507) 478-7516 "),
+                        message)
+
+                .create();
+
+        System.out.println(mes.getSid());
     }
 
     public String createRequestSessionMessage(Session session) {

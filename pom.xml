@@ -46,7 +46,12 @@
       <artifactId>guava</artifactId>
       <version>31.0.1-jre</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.twilio.sdk</groupId>
+      <artifactId>twilio</artifactId>
+      <version>8.25.0</version>
+      <scope>compile</scope>
+    </dependency>
     <dependency>
       <groupId>com.twilio.sdk</groupId>
       <artifactId>twilio</artifactId>

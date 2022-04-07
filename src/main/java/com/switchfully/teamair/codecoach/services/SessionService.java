@@ -60,7 +60,7 @@ public class SessionService {
         Session session = sessionMapper.toEntity(sessionDtoRequest);
         session.setFeedback(new Feedback());
            String message = messagingService.createRequestSessionMessage(session);
-        //  messagingService.sendMessageToTopic(message);
+          messagingService.sendMessageToTopic(message);
         sessionRepository.save(session);
 
     }
@@ -133,7 +133,7 @@ public class SessionService {
                     && newStatus.equals("CANCELLED_BY_COACHEE")) {
                 session.setSessionStatus(SessionStatus.valueOf(newStatus));
                 String message = messagingService.createCancelSessionMessageByCoachee(session);
-                messagingService.sendMessageToTopic(message);
+            //    messagingService.sendMessageToTopic(message);
             } else {
                 throw new InvalidSessionStatusException();
             }
