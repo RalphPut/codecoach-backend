@@ -89,6 +89,7 @@ public class SessionService {
                 .toList();
     }
 
+
     private void updateSessionStatusToDoneWaitingForFeedback() {
         logger.info("Updating the SessionStatus");
         for (Session session : sessionRepository.findAll()) {
